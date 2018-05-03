@@ -1,4 +1,4 @@
-
+//general info object
 let info = {
     initTime : '',
     lat: '',
@@ -9,23 +9,22 @@ let requestURL;
 let request = new XMLHttpRequest();
 
 
+//runs when user accepts geolocation, initiates application
 function getGeo(){ navigator.geolocation.getCurrentPosition(function(e){
-    console.log(e)
     
     let myTime = new Date();
     myTime.getDate(e.timestamp)
     info.initTime = myTime;
-    info.lat = Math.floor(e.coords.latitude);
-    info.lon = Math.floor(e.coords.longitude);
+    info.lat = e.coords.latitude;
+    info.lon = e.coords.longitude;
     requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat='+info.lat+'&lon='+info.lon+'&APPID=48e411ef7b37e3322417098d6f26293b&units=metric';
     if(e){gotLoc()}
     }, function(err){initFail();}
     );
     }
 
-
+//will run if user does not allow app to gain geolocation
 function initFail(){
-
     document.body.innerHTML = '';
     let failDiv = document.createElement('div');
     document.body.appendChild(failDiv);
@@ -42,30 +41,28 @@ function initFail(){
 }
 
 
-
+//obtains the users location
 function gotLoc(){
     document.body.innerHTML = '';
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
-    console.log(info.lat);
     reqTime();
 }
 
-//
+//keeps checking for request response until it recieves it
 let reqTime = function(){
     setTimeout(function(){
         if(request.response){
-            console.log(request.response);
             info.city = request.response.sys.country;
             info.icon = request.response.weather[0].icon
             initApp();
         }else{
-            console.log('not yet');
             reqTime();
         }
     }, 100)
 }
+
 
 
 //creates app when permission is granted
@@ -81,7 +78,7 @@ function initApp(){
 
     let weatherHead = document.createElement('div');
     weatherHead.classList += 'weatherHead';
-    weatherHead.innerHTML = info.city;
+    weatherHead.innerHTML = request.response.name
     weatherDiv.appendChild(weatherHead);
 
     let weatherMain = document.createElement('div');
@@ -102,6 +99,11 @@ function initApp(){
     weatherType.innerHTML = request.response.weather[0].description.split('')[0].toUpperCase() + request.response.weather[0].description.slice(1);
     weatherType.classList += 'weatherInfo';
     weatherMain.appendChild(weatherType);
+
+    let weatherHumidity = document.createElement('div');
+    weatherHumidity.innerHTML = 'Humidity: ' + request.response.main.humidity + '%';
+    weatherHumidity.classList += 'weatherInfo';
+    weatherMain.appendChild(weatherHumidity);
 }
 
 
