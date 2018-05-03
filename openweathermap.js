@@ -3,6 +3,10 @@ let info = {
     initTime : ''
 }
 
+let requestURL = 'http://api.openweathermap.org/data/2.5/weather?q=Dublin&APPID=48e411ef7b37e3322417098d6f26293b&units=metric';
+let request = new XMLHttpRequest();
+
+
 function getGeo(){ navigator.geolocation.getCurrentPosition(function(e){
     console.log(e)
     
@@ -32,9 +36,30 @@ function initFail(){
 
 }
 
+
+
 function gotLoc(){
     document.body.innerHTML = '';
-    console.log(info.initTime);
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    reqTime();
 }
+
+let reqTime = function(){
+    setTimeout(function(){
+        if(request.response){
+            console.log(request.response);
+            initApp();
+        }else{
+            console.log('not yet');
+            reqTime();
+        }
+    }, 100)
+}
+
+
+
+
 
 getGeo();
