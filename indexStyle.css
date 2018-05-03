@@ -1,0 +1,16 @@
+body, html{
+    font-family: arial;
+}
+
+.weatherDiv{
+    text-align: center;
+    width: 240px;
+}
+
+.weatherHead{
+    background: rgb(71, 120, 194);
+    color: white;
+    font-size: 1.5em;
+    
+    
+}
