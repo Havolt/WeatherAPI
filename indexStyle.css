@@ -2,15 +2,32 @@ body, html{
     font-family: arial;
 }
 
+
+
+
 .weatherDiv{
     text-align: center;
     width: 240px;
+    border: 1px solid #999;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0 auto;
 }
 
 .weatherHead{
     background: rgb(71, 120, 194);
     color: white;
     font-size: 1.5em;
-    
-    
+    border-top-right-radius: 9px;
+    border-top-left-radius: 9px;
+}
+
+.weatherMain{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.weatherInfo{
+    font-weight: bold;
+    padding-top: 8px;
 }

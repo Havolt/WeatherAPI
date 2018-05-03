@@ -58,6 +58,7 @@ let reqTime = function(){
         if(request.response){
             console.log(request.response);
             info.city = request.response.sys.country;
+            info.icon = request.response.weather[0].icon
             initApp();
         }else{
             console.log('not yet');
@@ -82,6 +83,25 @@ function initApp(){
     weatherHead.classList += 'weatherHead';
     weatherHead.innerHTML = info.city;
     weatherDiv.appendChild(weatherHead);
+
+    let weatherMain = document.createElement('div');
+    weatherMain.classList += 'weatherMain';
+    weatherDiv.appendChild(weatherMain);
+
+    let weatherIcon = document.createElement('img');
+    weatherIcon.src = 'http://openweathermap.org/img/w/'+info.icon+'.png'
+    weatherIcon.classList += 'weatherIcon';
+    weatherMain.appendChild(weatherIcon);
+
+    let weatherTemp = document.createElement('div');
+    weatherTemp.innerHTML = request.response.main.temp + '&degC';
+    weatherTemp.classList += 'weatherInfo';
+    weatherMain.appendChild(weatherTemp);
+
+    let weatherType = document.createElement('div');
+    weatherType.innerHTML = request.response.weather[0].description.split('')[0].toUpperCase() + request.response.weather[0].description.slice(1);
+    weatherType.classList += 'weatherInfo';
+    weatherMain.appendChild(weatherType);
 }
 
 
